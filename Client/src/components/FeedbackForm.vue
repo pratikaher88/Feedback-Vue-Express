@@ -2,7 +2,7 @@
 
 <section id="app" class="section">
 
-    <!-- <b-alert
+    <b-alert
       :show="dismissCountDown"
       dismissible
       fade
@@ -10,7 +10,7 @@
       @dismiss-count-down="countDownChanged"
     >
       Response successfully submitted !
-    </b-alert> -->
+    </b-alert>
 
     <h1 class="title is-1">
         Feedback Tool
@@ -157,6 +157,7 @@ export default {
       canvasCropped: null,
       imageURL: '',
       dismissCountDown: 0,
+      dismissSecs: 2
       }
   },
 
@@ -201,6 +202,10 @@ export default {
     //   console.log(text)
     // },
 
+    countDownChanged(dismissCountDown) {
+        this.dismissCountDown = dismissCountDown
+      },
+
     removeImage(){
       this.imageURL = ''
     },
@@ -233,6 +238,10 @@ export default {
       this.feedbackTextArea = ''
     },
 
+    showAlert() {
+        this.dismissCountDown = this.dismissSecs
+      },
+
     speechEnd({sentences, text}) {
       console.log('text', text)
       console.log('sentences', sentences)
@@ -241,8 +250,6 @@ export default {
     },
 
     async submitFeedbackForm() {
-
-      this.countDownChanged = 3
       
       console.log("Form submitted")
       
@@ -280,13 +287,17 @@ export default {
           )
           .then((response) => {
             console.log(response);
+            this.showAlert()
+            this.feedbackTextArea = ''
           }, (error) => {
             console.log(error);
+            // throw error;
           });
 
       console.log(this.responseData)
 
-      this.feedbackTextArea = ''
+      
+       // response succesuuly submitted
       // document.getElementById("selectedImageId").value = null;
 
     },
