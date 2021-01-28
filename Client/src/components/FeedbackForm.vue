@@ -149,7 +149,6 @@ export default {
   data() {
     return {
       feedbackTextArea: '',
-      selectedImage: null,
       text: '',
       sentences: null,
       responseData: [],
@@ -247,18 +246,18 @@ export default {
       
       console.log("Form submitted")
       
-      if (this.selectedImage){
+      if (this.imageURL){
 
         let s3 = new AWS.S3();
 
         var filePath = uuidv4();
       
         var params = {
-            "Body": this.selectedImage,
+            "Body": new Buffer(this.imageURL, 'base64'),
             "Bucket": "feedbacktoolbucket",
             "Key": filePath,
             "ACL": "public-read", /* This makes the image public, but only works if your S3 bucket allows public access */
-            "ContentType": this.selectedImage.type /* This is important to handle jpg vs png etc */
+            "ContentType": 'image/jpeg' /* This is important to handle jpg vs png etc */
         };
 
         try {
@@ -292,9 +291,7 @@ export default {
     },
     
     onImageSelected(e) {
-      this.selectedImage = e.target.files[0]
-      console.log(this.selectedImage)
-      this.imageURL = URL.createObjectURL(this.selectedImage)
+      this.imageURL = URL.createObjectURL(e.target.files[0])
       // document.getElementById("file-upload-image").setAttribute('src', URL.createObjectURL(this.selectedImage));
       console.log(this.imageURL)
     }
