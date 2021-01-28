@@ -2,7 +2,7 @@
 
 <section id="app" class="section">
 
-    <b-alert
+    <!-- <b-alert
       :show="dismissCountDown"
       dismissible
       fade
@@ -10,7 +10,7 @@
       @dismiss-count-down="countDownChanged"
     >
       Response successfully submitted !
-    </b-alert>
+    </b-alert> -->
 
     <h1 class="title is-1">
         Feedback Tool
@@ -241,7 +241,7 @@ export default {
       this.feedbackTextArea = text
     },
 
-    submitFeedbackForm() {
+    async submitFeedbackForm() {
 
       this.countDownChanged = 3
       
@@ -262,20 +262,13 @@ export default {
         };
 
         try {
-          const stored = await s3.upload(params).promise()
-          console.log(stored);
-        } catch (err) {
-          console.log(err)
+          const s3Response = await s3.upload(params).promise();
+          console.log(s3Response);
+          this.responseData.push({ImageLocation: s3Response.Location})
+        } catch (error) {
+          console.log(error);
         }
 
-        // s3.upload(params, (err, data) => {
-        //     if (err) {
-        //       console.log("Error", err);
-        //     } if (data) {
-        //       console.log("Upload Success", data.Location);
-        //       this.responseData.push({ImageLocation: data.Location})
-        //     }
-        //   });
       }
 
       if (this.feedbackTextArea){
