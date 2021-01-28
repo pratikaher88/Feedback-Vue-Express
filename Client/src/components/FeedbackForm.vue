@@ -206,7 +206,7 @@ export default {
     },
 
     cropImage(){
-      console.log("Cropped Image:",this.canvasCropped)
+      // console.log("Cropped Image:",this.canvasCropped)
       this.imageURL = this.canvasCropped.toDataURL('image/jpeg', 1)
       // document.getElementById("file-upload-image").setAttribute('src', this.canvasCropped.toDataURL('image/jpeg', 1));
     },
@@ -253,11 +253,12 @@ export default {
         var filePath = uuidv4();
       
         var params = {
-            "Body": new Buffer(this.imageURL, 'base64'),
+            "Body": Buffer.from(this.imageURL.replace(/^data:image\/\w+;base64,/, ""),'base64'),
             "Bucket": "feedbacktoolbucket",
             "Key": filePath,
+            "ContentEncoding": 'base64',
             "ACL": "public-read", /* This makes the image public, but only works if your S3 bucket allows public access */
-            "ContentType": 'image/jpeg' /* This is important to handle jpg vs png etc */
+            "ContentType": 'image/jpg' /* This is important to handle jpg vs png etc */
         };
 
         try {
@@ -290,11 +291,37 @@ export default {
 
     },
     
-    onImageSelected(e) {
-      this.imageURL = URL.createObjectURL(e.target.files[0])
-      // document.getElementById("file-upload-image").setAttribute('src', URL.createObjectURL(this.selectedImage));
-      console.log(this.imageURL)
-    }
+    async onImageSelected(event) {
+        // this.imageURL = URL.createObjectURL(e.target.files[0])
+        // const file = e.target.files[0];
+
+        // console.log(event.target.files[0])
+
+        const readUploadedFileAsText = (inputFile) => {
+          const temporaryFileReader = new FileReader();
+          return new Promise((resolve) => {
+            temporaryFileReader.addEventListener("load", function() {
+              resolve(temporaryFileReader.result);
+            }); 
+          temporaryFileReader.readAsDataURL( inputFile );
+              });
+        };
+
+        const file = event.target.files[0];
+
+        try {
+          const fileContents = await readUploadedFileAsText(file)  
+          this.imageURL = fileContents
+          // console.log("FC",this.imageURL);
+        } catch (e) {
+          console.warn(e.message)
+        }
+
+        // console.log("wdhbfljsfgdn", this.imageURL)
+
+    },
+
+    
 
 
   }
