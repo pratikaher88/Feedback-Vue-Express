@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.post('/api/feedbackresponse', (req, res) => {
     const feedbackresponse = req.body;
 
-    console.log(feedbackresponse['Comment']);
+    console.log(feedbackresponse);
 
     res.send('Book is added to the database');
 });
