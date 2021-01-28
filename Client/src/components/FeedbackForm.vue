@@ -268,14 +268,14 @@ export default {
           console.log(err)
         }
 
-        s3.upload(params, (err, data) => {
-            if (err) {
-              console.log("Error", err);
-            } if (data) {
-              console.log("Upload Success", data.Location);
-              this.responseData.push({ImageLocation: data.Location})
-            }
-          });
+        // s3.upload(params, (err, data) => {
+        //     if (err) {
+        //       console.log("Error", err);
+        //     } if (data) {
+        //       console.log("Upload Success", data.Location);
+        //       this.responseData.push({ImageLocation: data.Location})
+        //     }
+        //   });
       }
 
       if (this.feedbackTextArea){
