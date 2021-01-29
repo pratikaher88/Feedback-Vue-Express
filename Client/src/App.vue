@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-
     <FeedbackForm/>
-
   </div>
 </template>
 

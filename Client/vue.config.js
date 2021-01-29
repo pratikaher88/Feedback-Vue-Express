@@ -8,5 +8,7 @@ module.exports = {
           logLevel: "debug"
         }
       }
-    }
+    },
+    runtimeCompiler: true
+
   };

@@ -287,7 +287,9 @@ export default {
           )
           .then((response) => {
             console.log(response);
-            this.showAlert()
+            if (response.status == 200 && response.data == 'Response is recieved!'){
+                this.showAlert()
+            }
             this.feedbackTextArea = ''
             this.responseData = []
           }, (error) => {
