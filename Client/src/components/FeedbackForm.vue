@@ -102,7 +102,7 @@
                       <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-review-data')">Close</b-button>
                     </b-modal>
 
-                    <button class="submitbutton" @submit.prevent="submitFeedbackForm" >SUBMIT</button>
+                    <button class="submitbutton" @submit.prevent="submitFeedbackForm" :disabled="commentCharacterCount==0">SUBMIT</button>
                 </div>
               </div>
             </form>
@@ -282,13 +282,14 @@ export default {
         this.responseData.push({Comment: this.feedbackTextArea})
       }
 
-      axios.post('http://localhost:3000/api/feedbackresponse', 
+      axios.post(process.env.VUE_APP_API_ENDPOINT_TO_SEND_FEEDBACK, 
           this.responseData
           )
           .then((response) => {
             console.log(response);
             this.showAlert()
             this.feedbackTextArea = ''
+            this.responseData = []
           }, (error) => {
             console.log(error);
             // throw error;
@@ -374,6 +375,10 @@ export default {
   width: 200px;
   height: 200px;
 
+}
+
+.submitbutton:disabled {
+  background: #a6a6a6;
 }
 
 </style>
