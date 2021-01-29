@@ -19,10 +19,11 @@ app.post('/api/feedbackresponse', (req, res) => {
     console.log(feedbackresponse);
     responses.push(feedbackresponse);
 
-    res.send('Feedback is recieved!');
+    res.send('Response is recieved!');
 });
 
-app.get('/responses', (req, res) => {
+app.get('/api/responses', (req, res) => {
+    console.log("Recieved response",responses)
     res.json(responses);
 });
 
