@@ -163,20 +163,7 @@ export default {
 
   mounted() {
     
-    this.responseData.push({SiteName: window.location.href})
-    this.responseData.push({Resolution: String(window.screen.width) + 'x' + String(window.screen.height) })
-    this.responseData.push({ userAgent: navigator.userAgent})
-    this.responseData.push({ 'ACCEPT LANGUAGE': navigator.language})
-    if (document.referrer){
-      this.responseData.push({ 'REFERRER': document.referrer})
-    }
-
-    var i;var pluginsData = "";
-    for (i = 0; i < navigator.plugins.length; i++) {
-      pluginsData += navigator.plugins[i].name + " - "+ navigator.plugins[i].filename + ". " ;
-    }
-
-    this.responseData.push({Plugins: pluginsData})
+    this.setInitialData()
 
   },
 
@@ -197,6 +184,25 @@ export default {
   },
 
   methods: {
+
+    setInitialData(){
+
+      this.responseData.push({SiteName: window.location.href})
+      this.responseData.push({Resolution: String(window.screen.width) + 'x' + String(window.screen.height) })
+      this.responseData.push({ userAgent: navigator.userAgent})
+      this.responseData.push({ 'ACCEPT LANGUAGE': navigator.language})
+      if (document.referrer){
+        this.responseData.push({ 'REFERRER': document.referrer})
+      }
+
+      var i;var pluginsData = "";
+      for (i = 0; i < navigator.plugins.length; i++) {
+        pluginsData += navigator.plugins[i].name + " - "+ navigator.plugins[i].filename + ". " ;
+      }
+
+      this.responseData.push({Plugins: pluginsData})
+
+    },
 
     // sentTexts(text){
     //   console.log(text)
@@ -292,6 +298,7 @@ export default {
             }
             this.feedbackTextArea = ''
             this.responseData = []
+            this.setInitialData()
           }, (error) => {
             console.log(error);
             // throw error;

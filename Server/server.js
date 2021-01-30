@@ -24,6 +24,17 @@ app.post('/api/feedbackresponse', (req, res) => {
 
 app.get('/api/responses', (req, res) => {
     console.log("Recieved response",responses)
+    // var final = []
+    // for(var res in responses){
+    //     var result = {}
+    //     for(var value in responses[res]){
+    //         var data = responses[res][value]
+    //         var key = Object.keys(data)[0]
+    //         result[key] = data[key]
+    //     }
+    //     final.push(result)
+    // }
+    // console.log(final);
     res.json(responses);
 });
 
